@@ -3,7 +3,10 @@
   background-color: #af2f00;
   padding: 20px 50px;
   color: white;
-  top: 90%;
+  top: 110vh;
   left: 50%;
   transform: translate(-50%, -50%);
+  border-radius: 4px;
+  max-width: 90%;
+  width: 500px;
 }

@@ -7,15 +7,24 @@
 // ==/UserScript==
 
 const addErrorElement = () => {
+  document
+    .getElementsByTagName('head')[0]
+    .insertAdjacentHTML(
+      'beforeend',
+      '<link rel="stylesheet" href="https://castynet-studios.github.io/Automate-Gmail/styles.css" />'
+    );
+
   const errorElement = document.createElement('div');
   errorElement.className = 'error-popup';
-  errorElement.innerHTML = '<div class="error-popup-text">Please open this page in a new tab</div>';
-  console.log(errorElement);
+  errorElement.innerHTML =
+    '<p class="error-popup-text">An error occurred fetching emails, check that you have an email open, if you do contact the developer</p>';
   document.body.appendChild(errorElement);
+
+  return errorElement;
 };
 
 const searchEmail = ({ key }) => {
-  addErrorElement();
+  const errorElement = addErrorElement();
 
   if (key === 'w') {
     try {
@@ -30,7 +39,11 @@ const searchEmail = ({ key }) => {
 
       window.location.replace(newUrl);
     } catch (err) {
-      console.log(err);
+      errorElement.style.top = '90%';
+      // remove error element after 5 seconds
+      setTimeout(() => {
+        errorElement.style.top = '110vh';
+      }, 5000);
     }
   }
 };
