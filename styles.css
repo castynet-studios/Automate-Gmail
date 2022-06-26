@@ -1,7 +1,7 @@
 .error-popup {
   position: absolute;
   background-color: #af2f00;
-  padding: 20px 50px;
+  padding: 0 50px;
   color: white;
   top: 110vh;
   left: 50%;
@@ -9,4 +9,5 @@
   border-radius: 4px;
   max-width: 90%;
   width: 500px;
+  transition: all 0.3s ease-in-out;
 }

@@ -5,6 +5,7 @@
 // @author       Castynet
 // @match        https://mail.google.com/*
 // ==/UserScript==
+let errorElement;
 
 const addErrorElement = () => {
   document
@@ -24,7 +25,7 @@ const addErrorElement = () => {
 };
 
 const searchEmail = ({ key }) => {
-  const errorElement = addErrorElement();
+  errorElement = errorElement || addErrorElement();
 
   if (key === 'w') {
     try {
@@ -40,10 +41,9 @@ const searchEmail = ({ key }) => {
       window.location.replace(newUrl);
     } catch (err) {
       errorElement.style.top = '90%';
-      // remove error element after 5 seconds
       setTimeout(() => {
         errorElement.style.top = '110vh';
-      }, 5000);
+      }, 15000);
     }
   }
 };
