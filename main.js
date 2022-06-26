@@ -18,7 +18,7 @@ const addErrorElement = () => {
   const errorElement = document.createElement('div');
   errorElement.className = 'error-popup';
   errorElement.innerHTML =
-    '<p class="error-popup-text">An error occurred fetching emails, check that you have an email open, if you do contact the developer</p>';
+    '<p class="error-popup-text">An error occurred fetching emails, check that you have an email open, if you do contact the developer.</p>';
   document.body.appendChild(errorElement);
 
   return errorElement;
@@ -43,7 +43,7 @@ const searchEmail = ({ key }) => {
       errorElement.style.top = '90%';
       setTimeout(() => {
         errorElement.style.top = '110vh';
-      }, 15000);
+      }, 5000);
     }
   }
 };
