@@ -1,0 +1,9 @@
+.error-popup {
+  position: absolute;
+  background-color: #af2f00;
+  padding: 20px 50px;
+  color: white;
+  top: 90%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
