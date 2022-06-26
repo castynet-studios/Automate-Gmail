@@ -1,53 +1,38 @@
 // ==UserScript==
 // @name         Automate Gmail
-// @namespace    http://tampermonkey.net/
-// @version      0.1
 // @description  try to take over the world!
+// @version      0.1
 // @author       Castynet
 // @match        https://mail.google.com/*
-// @icon         data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==
-// @grant        none
 // ==/UserScript==
 
-(function () {
-  'use strict';
-  // Add event listener on keydown
-  document.addEventListener('keydown', (event) => {
-    let first = true;
-    let second = true;
-    if (event.key === 'w') {
-      try {
-        const senderClass = document.getElementsByClassName('go');
-        let emailArray = [...senderClass];
-        let senderAddress;
-        if (emailArray[0].innerText[0] === '<') {
-          senderAddress = emailArray[0].innerText.slice(1, -1);
-        } else {
-          senderAddress = emailArray[0].innerText;
-        }
-        let url = window.location.href;
-        let newUrl =
-          url.slice(0, url.indexOf('#')) + '#search/' + senderAddress;
-        window.location.replace(newUrl);
-      } catch (err) {
-        first = false;
-      }
-      if (first === false) {
-        try {
-          const senderClass = document.getElementsByClassName('gD');
-          let emailArray = [...senderClass];
-          const senderAddress = emailArray[0].innerText;
-          let url = window.location.href;
-          let newUrl =
-            url.slice(0, url.indexOf('#')) + '#search/' + senderAddress;
-          window.location.replace(newUrl);
-        } catch (err) {
-          second = false;
-        }
-      }
+const addErrorElement = () => {
+  const errorElement = document.createElement('div');
+  errorElement.className = 'error-popup';
+  errorElement.innerHTML = '<div class="error-popup-text">Please open this page in a new tab</div>';
+  console.log(errorElement);
+  document.body.appendChild(errorElement);
+};
+
+const searchEmail = ({ key }) => {
+  addErrorElement();
+
+  if (key === 'w') {
+    try {
+      // const senderAddresses = document.getElementsByClassName('go') || document.getElementsByClassName('gD');
+      let senderAddresses = document.getElementsByClassName('go');
+      senderAddresses = senderAddresses.length > 0 ? senderAddresses : document.getElementsByClassName('gD');
+
+      const email = senderAddresses[0].innerText;
+      const senderAddress = email === '<' ? email.slice(1, -1) : email;
+      const url = window.location.href;
+      const newUrl = url.slice(0, url.indexOf('#')) + '#search/' + senderAddress;
+
+      window.location.replace(newUrl);
+    } catch (err) {
+      console.log(err);
     }
-    if (first === false && second === false) {
-      alert('Open a message');
-    }
-  });
-})();
+  }
+};
+
+document.addEventListener('keydown', searchEmail);
