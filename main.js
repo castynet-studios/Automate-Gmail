@@ -33,12 +33,13 @@ const searchEmail = ({ key }) => {
       let senderAddresses = document.getElementsByClassName('go');
       senderAddresses = senderAddresses.length > 0 ? senderAddresses : document.getElementsByClassName('gD');
 
-      const email = senderAddresses[0].innerText;
+      const email = senderAddresses[0].innerText.replace('@', '%40');
+
       const senderAddress = email === '<' ? email.slice(1, -1) : email;
       const url = window.location.href;
       const newUrl = url.slice(0, url.indexOf('#')) + '#search/' + senderAddress;
 
-      window.location.replace(newUrl);
+      window.location.href = newUrl;
     } catch (err) {
       errorElement.style.top = '90%';
       setTimeout(() => {
