@@ -7,6 +7,8 @@
 // ==/UserScript==
 let errorElement;
 
+const knownElementsToAvoid = ['input', 'textarea', 'editable'];
+
 const addErrorElement = () => {
   document
     .getElementsByTagName('head')[0]
@@ -18,18 +20,25 @@ const addErrorElement = () => {
   const errorElement = document.createElement('div');
   errorElement.className = 'error-popup';
   errorElement.innerHTML =
-    '<p class="error-popup-text">An error occurred fetching emails, check that you have an email open, if you do contact the developer.</p>';
+    '<p class="error-popup-text">An error occurred fetching emails, check that you have an email open, if you do contact the developer</p>';
   document.body.appendChild(errorElement);
 
   return errorElement;
 };
 
-const searchEmail = ({ key }) => {
+const searchEmail = ({ key, srcElement }) => {
+  const { classList, nodeName } = srcElement;
+  const listToAvoid = [...classList, nodeName];
+
+  const listToAvoidLower = listToAvoid.map((item) => item.toLowerCase());
+  const knownElementsToAvoidLower = knownElementsToAvoid.map((item) => item.toLowerCase());
+
+  if (listToAvoidLower.some((element) => knownElementsToAvoidLower.includes(element))) return false;
+
   errorElement = errorElement || addErrorElement();
 
   if (key === 'w') {
     try {
-      // const senderAddresses = document.getElementsByClassName('go') || document.getElementsByClassName('gD');
       let senderAddresses = document.getElementsByClassName('go');
       senderAddresses = senderAddresses.length > 0 ? senderAddresses : document.getElementsByClassName('gD');
 
